@@ -61,7 +61,7 @@ export default function GameView(){
                             score: '',
                             isTurnOver: false,
                             position: sortedPlayers.findIndex(element => element.id === player.id) + 1
-                        }
+                        },
                     }
                 })
             })
@@ -73,28 +73,47 @@ export default function GameView(){
             setPodiumPlayers(currentPlayers.filter(player => player.currentGame.position === 1 || player.currentGame.position === 2 || player.currentGame.position === 3));
             setGameLogic(prevLogic => {return{...prevLogic, showRoundToaster: true}});
             
-            // set player stats
-            setCurrentPlayers(setStats(currentPlayers));
-            setApp(prevApp => {
-                return{
-                    ...prevApp,
-                    players:[
-                        ...prevApp.players,
-                        
-                    ]
-                }
-            })
-
-
-
-            
-            
+             
 
         }else if(gameLogic.isRoundOver){
             setPodiumPlayers(currentPlayers.filter(player => player.currentGame.position === 1 || player.currentGame.position === 2 || player.currentGame.position === 3));
             setGameLogic(prevLogic => {return{...prevLogic, showRoundToaster: true}});
         }
     }, [gameLogic.isRoundOver])
+
+    useEffect(() => {
+        if(gameLogic.isGameOver){
+            const copyArray = [...currentPlayers];
+            const updatedCurrentPlayers = copyArray.map(player => {
+                console.log(player.stats.winPercentage)
+                return{
+                    ...player,
+                    stats:{
+                        ...player.stats,
+                        totalGamesPlayed: player.stats.totalGamesPlayed + 1,
+                        wins: player.currentGame.position === 1 ? player.stats.wins + 1 : player.stats.wins,
+                        loses: player.currentGame.position !== 1 ? player.stats.loses + 1 : player.stats.loses,
+                    },
+                    currentGame:{
+                        ...player.currentGame,
+                        totalScore: 0,
+                        position: 0
+                    }
+                }
+            })
+            
+            const newPlayerArray = app.players.map(player => {
+                const currentPlayerElement = updatedCurrentPlayers.find(curr => curr.id === player.id);
+                return currentPlayerElement ? currentPlayerElement : player;
+            })
+            
+            setApp(prevApp => ({
+                ...prevApp,
+                players: [...newPlayerArray]
+            })) 
+
+        }
+    },[gameLogic.isGameOver])
         
 
     // input handlers

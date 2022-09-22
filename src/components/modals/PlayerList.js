@@ -16,7 +16,7 @@ export default function PlayerList({onclick}){
                 <p>{`${item.stats.wins} wins`}</p>
             </div>
             <div className="player-sub-info">
-                <p className='player-percentage'>{`Win Percentage ${item.stats.winPercentage}%`}</p>
+                <p className='player-percentage'>{`${item.stats.loses} Losses`}</p>
                 <i id={item.id} className='btn--delete-player ri-delete-bin-line' onClick={onclick}></i>
             </div>
         </div>

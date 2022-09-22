@@ -11,21 +11,6 @@ export const setAppDataToStorage = players => {
 
 // ---- Game ---- //
 
-// set player stats
-export const setStats = players => {
-    const newPlayers = players.map(player => {
-        return{
-            ...player,
-            stats:{
-                ...player.stats,
-                totalGamesPlayed: player.stats.totalGamesPlayed + 1,
-                wins: player.currentGame.position === 1 ? player.stats.wins + 1: player.stats.loses + 1
-            }
-        }
-    })
-
-    return newPlayers
-}
 
 // ---- PLAYERS ---- //
 
