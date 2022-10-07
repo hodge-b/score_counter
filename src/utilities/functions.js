@@ -81,6 +81,7 @@ export const setupPlayerElementForRender = (players, setPlayers, handleNewScore)
                         id={item.id} 
                         value={item.currentGame.score}
                         type= "text"
+                        autoComplete="off"
                         onChange={e => setPlayers(prevPlayers => {
                             return prevPlayers.map(player => {
                                 if(player.id === item.id){
